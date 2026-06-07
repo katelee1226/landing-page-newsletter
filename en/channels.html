@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News Channel Resources | Emerging News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #F7F8FB;
+  --bg2:    #FFFFFF;
+  --bg3:    #FFFFFF;
+  --accent: #E87400;
+  --blue:   #2563EB;
+  --text:   #172033;
+  --muted:  #5E6A7D;
+  --border: rgba(23,32,51,0.10);
+  --card:   #FFFFFF;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #fff;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 56px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-decoration: none;
+}
+.logo .em { color: var(--accent); }
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: var(--text); }
+.back-btn svg { width: 14px; height: 14px; }
+
+/* PAGE HEADER */
+.page-header {
+  position: relative;
+  z-index: 1;
+  padding: 60px 56px 52px;
+  max-width: 1040px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.page-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232,116,0,0.10);
+  border: 1px solid rgba(232,116,0,0.22);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 11.5px;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+}
+.page-title {
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.page-title .hl { color: var(--accent); }
+.page-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 560px;
+}
+
+/* FILTER TABS */
+.filter-bar {
+  position: relative;
+  z-index: 1;
+  padding: 0 56px;
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.ftab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.ftab:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
+.ftab.active {
+  background: rgba(232,116,0,0.10);
+  border-color: rgba(232,116,0,0.35);
+  color: var(--accent);
+}
+
+/* MAIN CONTENT */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 56px 80px;
+}
+
+/* COUNTRY SECTION */
+.country-section {
+  padding-top: 52px;
+}
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.country-flag { font-size: 28px; }
+.country-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.country-count {
+  font-size: 11.5px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-left: auto;
+  font-family: 'Space Mono', monospace;
+}
+
+/* CHANNEL TABLE */
+.channel-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.channel-table thead tr {
+  border-bottom: 1px solid var(--border);
+}
+.channel-table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 14px;
+}
+.channel-table thead th:first-child { padding-left: 0; }
+
+.channel-row {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+}
+.channel-row:hover { background: rgba(255,255,255,0.025); }
+.channel-row:last-child { border-bottom: none; }
+
+.channel-row td {
+  padding: 14px 14px;
+  vertical-align: middle;
+}
+.channel-row td:first-child { padding-left: 0; }
+
+.channel-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.channel-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(232,116,0,0.08);
+  border: 1px solid rgba(232,116,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.channel-name-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.channel-name-link:hover { color: var(--accent); }
+.ext-icon {
+  display: inline-block;
+  width: 10px; height: 10px;
+  margin-left: 4px;
+  opacity: 0.4;
+  vertical-align: middle;
+}
+
+.channel-spec {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag {
+  font-size: 10.5px;
+  background: rgba(37,99,235,0.08);
+  color: #1D4ED8;
+  border: 1px solid rgba(37,99,235,0.16);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* SUMMARY BAR */
+.summary-bar {
+  position: relative; z-index: 1;
+  background: var(--bg3);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 56px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 100%;
+  gap: 0;
+}
+.sstat {
+  min-width: 0;
+  padding: 0 20px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.sstat:last-child { border-right: none; }
+.snum {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.slabel {
+  display: block;
+  min-height: 36px;
+  margin-top: 4px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 28px 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.flogo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-decoration: none;
+}
+.flogo .em { color: var(--accent); }
+footer p { font-size: 12px; color: var(--muted); }
+.flinks { display: flex; gap: 20px; }
+.flinks a { font-size: 12px; color: var(--muted); text-decoration: none; }
+.flinks a:hover { color: var(--text); }
+
+/* SUBSCRIBE CTA */
+.bottom-cta {
+  position: relative; z-index: 1;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 56px;
+  text-align: center;
+}
+.bottom-cta h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 12px;
+}
+.bottom-cta p { font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+.cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding: 16px 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: -0.2px;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.cta-btn:hover { opacity: 0.86; transform: translateY(-1px); }
+
+@media (max-width: 720px) {
+  nav, .page-header, .filter-bar, .content, .summary-bar, .bottom-cta, footer {
+    padding-left: 20px; padding-right: 20px;
+  }
+  .summary-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sstat { padding: 16px 10px; border-bottom: 1px solid var(--border); }
+  .sstat:nth-child(2) { border-right: none; }
+  .sstat:nth-child(n+3) { border-bottom: none; }
+  .channel-table { font-size: 13px; }
+  .channel-row td { padding: 12px 8px; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/en/" class="logo"><span class="em">EMERGING</span> NEWS</a>
+  <a href="/en/" class="back-btn">
+    <svg viewBox="0 0 14 14" fill="none">
+      <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Go to Main
+  </a>
+</nav>
+
+<!-- SUMMARY BAR -->
+<div class="summary-bar">
+  <div class="sstat"><span class="snum">60+</span><span class="slabel">Leading Industry<br>Publications</span></div>
+  <div class="sstat"><span class="snum">6</span><span class="slabel">Key Markets<br>Covered</span></div>
+  <div class="sstat"><span class="snum">Daily</span><span class="slabel">Automated Monitoring<br>&amp; Updates</span></div>
+  <div class="sstat"><span class="snum">AI</span><span class="slabel">Translated &amp;<br>Summarized Insights</span></div>
+</div>
+
+<div class="page-header">
+  <div class="page-badge">NEWS CHANNEL RESOURCES</div>
+  <div class="page-title">Global Industry Sources for<br><span class="hl">Semiconductors, Automation &amp; Industrial AI</span></div>
+  <p class="page-sub">Explore a curated collection of leading industry publications covering semiconductors, manufacturing technology, smart factories, robotics, data centers, and industrial AI across the United States, Japan, Taiwan, Germany, China, and South Korea.<br><br>Emerging News continuously monitors these sources and delivers the most relevant technology updates, market developments, and industry intelligence in a concise daily briefing.</p>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar" id="filter-bar">
+  <button class="ftab active" data-filter="all" onclick="filterCountry('all', this)">🌏 All Sources</button>
+  <button class="ftab" data-filter="us" onclick="filterCountry('us', this)">🇺🇸 United States</button>
+  <button class="ftab" data-filter="jp" onclick="filterCountry('jp', this)">🇯🇵 Japan</button>
+  <button class="ftab" data-filter="de" onclick="filterCountry('de', this)">🇩🇪 Germany</button>
+  <button class="ftab" data-filter="tw" onclick="filterCountry('tw', this)">🇹🇼 Taiwan</button>
+  <button class="ftab" data-filter="cn" onclick="filterCountry('cn', this)">🇨🇳 China</button>
+  <button class="ftab" data-filter="kr" onclick="filterCountry('kr', this)">🇰🇷 South Korea</button>
+</div>
+
+<div class="content">
+
+  <!-- 🇺🇸 United States -->
+  <div class="country-section" data-country="us">
+    <div class="country-header">
+      <span class="country-flag">🇺🇸</span>
+      <span class="country-name">United States</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead>
+        <tr>
+          <th style="width:200px;">Publication</th>
+          <th>Coverage Areas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://www.eetimes.com" target="_blank" class="channel-name-link">EE Times<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Embedded</span><span class="tag">AI Hardware</span><span class="tag">IoT</span><span class="tag">Electronics</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">💎</div><a href="https://semiengineering.com" target="_blank" class="channel-name-link">Semiconductor Engineering<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Advanced Semiconductors</span><span class="tag">EDA</span><span class="tag">Packaging</span><span class="tag">AI Chip</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://www.automationworld.com" target="_blank" class="channel-name-link">Automation World<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Industrial Automation</span><span class="tag">Smart Manufacturing</span><span class="tag">IIoT</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🏗️</div><a href="https://www.industryweek.com" target="_blank" class="channel-name-link">IndustryWeek<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Manufacturing</span><span class="tag">Supply Chain</span><span class="tag">Industrial AI</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🤖</div><a href="https://www.therobotreport.com" target="_blank" class="channel-name-link">The Robot Report<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Robotics</span><span class="tag">Autonomous Systems</span><span class="tag">Logistics Automation</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🔌</div><a href="https://www.electronicdesign.com" target="_blank" class="channel-name-link">Electronic Design<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Electronic Design</span><span class="tag">Semiconductors</span><span class="tag">Embedded</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🎛️</div><a href="https://www.controleng.com" target="_blank" class="channel-name-link">Control Engineering<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">PLC</span><span class="tag">SCADA</span><span class="tag">Factory Automation</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🔧</div><a href="https://www.designnews.com" target="_blank" class="channel-name-link">Design News<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Engineering</span><span class="tag">Manufacturing Technology</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">💻</div><a href="https://www.embeddedcomputing.com" target="_blank" class="channel-name-link">Embedded Computing Design<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Embedded</span><span class="tag">Edge AI</span></div></td>
+        </tr>
+        <tr class="channel-row">
+          <td><div class="channel-name-cell"><div class="channel-icon">🏢</div><a href="https://www.semiconductordigest.com" target="_blank" class="channel-name-link">Semiconductor Digest<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td>
+          <td><div class="tag-list"><span class="tag">Semiconductor Equipment</span><span class="tag">FAB</span></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🇯🇵 Japan -->
+  <div class="country-section" data-country="jp">
+    <div class="country-header">
+      <span class="country-flag">🇯🇵</span>
+      <span class="country-name">Japan</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead>
+        <tr><th style="width:200px;">Publication</th><th>Coverage Areas</th></tr>
+      </thead>
+      <tbody>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📰</div><a href="https://asia.nikkei.com" target="_blank" class="channel-name-link">Nikkei Asia<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Japan Manufacturing</span><span class="tag">Semiconductors</span><span class="tag">Global Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🔬</div><a href="https://xtech.nikkei.com" target="_blank" class="channel-name-link">Nikkei XTECH<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Technology Industry</span><span class="tag">AI</span><span class="tag">Semiconductors</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://eetimes.jp" target="_blank" class="channel-name-link">EE Times Japan<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Electronics Technology</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://monoist.itmedia.co.jp" target="_blank" class="channel-name-link">MONOist<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Manufacturing</span><span class="tag">Smart Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💎</div><a href="https://www.semiconportal.com" target="_blank" class="channel-name-link">Semicon Portal<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductor Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚙️</div><a href="https://www.nikkan.co.jp" target="_blank" class="channel-name-link">Nikkan Kogyo Shimbun<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industrial Machinery</span><span class="tag">Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🧠</div><a href="https://news.mynavi.jp/techplus" target="_blank" class="channel-name-link">Tech+<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">IT</span><span class="tag">AI</span><span class="tag">Engineering</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏗️</div><a href="https://newswitch.jp" target="_blank" class="channel-name-link">Newswitch<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Japanese Manufacturing Companies</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🤖</div><a href="https://robotdigest.com" target="_blank" class="channel-name-link">Robot Digest Japan<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industrial Robotics</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏢</div><a href="https://www.japanindnews.com" target="_blank" class="channel-name-link">Japan Industry News<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Japan Industry</span><span class="tag">Manufacturing</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🇩🇪 Germany -->
+  <div class="country-section" data-country="de">
+    <div class="country-header">
+      <span class="country-flag">🇩🇪</span>
+      <span class="country-name">Germany</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead><tr><th style="width:200px;">Publication</th><th>Coverage Areas</th></tr></thead>
+      <tbody>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://www.elektronikpraxis.de" target="_blank" class="channel-name-link">Elektronikpraxis<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Industrial Electronics</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📡</div><a href="https://www.markt-technik.de" target="_blank" class="channel-name-link">Markt&amp;Technik<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Electronics Industry</span><span class="tag">Semiconductors</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚙️</div><a href="https://www.maschinenmarkt.de" target="_blank" class="channel-name-link">MM MaschinenMarkt<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Manufacturing</span><span class="tag">Industrial Machinery</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🎛️</div><a href="https://www.computer-automation.de" target="_blank" class="channel-name-link">Computer &amp; Automation<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Automation</span><span class="tag">PLC</span><span class="tag">IIoT</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏗️</div><a href="https://www.industr.com" target="_blank" class="channel-name-link">Industr.com<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industry</span><span class="tag">Manufacturing Innovation</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://www.produktion.de" target="_blank" class="channel-name-link">Produktion<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Manufacturing</span><span class="tag">Smart Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🔌</div><a href="https://www.all-electronics.de" target="_blank" class="channel-name-link">All Electronics<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Electronics Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://www.factoryinnovation.eu" target="_blank" class="channel-name-link">Factory Innovation<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Smart Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🔧</div><a href="https://www.automation-next.com" target="_blank" class="channel-name-link">Automation NEXT<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Automation</span><span class="tag">Digital Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🧠</div><a href="https://www.industryofthings.com" target="_blank" class="channel-name-link">Industry of Things World<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industry 4.0</span><span class="tag">Industrial AI</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🇹🇼 Taiwan -->
+  <div class="country-section" data-country="tw">
+    <div class="country-header">
+      <span class="country-flag">🇹🇼</span>
+      <span class="country-name">Taiwan</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead><tr><th style="width:200px;">Publication</th><th>Coverage Areas</th></tr></thead>
+      <tbody>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💎</div><a href="https://www.digitimes.com" target="_blank" class="channel-name-link">Digitimes<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">AI Servers</span><span class="tag">Supply Chain</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🧠</div><a href="https://technews.tw" target="_blank" class="channel-name-link">TechNews Taiwan<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">AI</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://www.eetasia.com" target="_blank" class="channel-name-link">EE Times Asia<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Electronics Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🖥️</div><a href="https://www.ithome.com.tw" target="_blank" class="channel-name-link">iThome Taiwan<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Data Centers</span><span class="tag">Cloud</span><span class="tag">AI</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📈</div><a href="https://www.bnext.com.tw" target="_blank" class="channel-name-link">Business Next<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Technology Industry</span><span class="tag">Startups</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💰</div><a href="https://money.udn.com/money/index" target="_blank" class="channel-name-link">Economic Daily News Tech<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductor Supply Chain</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏗️</div><a href="https://ctee.com.tw" target="_blank" class="channel-name-link">Commercial Times Tech<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industrial Economy</span><span class="tag">Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🔶</div><a href="https://techorange.com" target="_blank" class="channel-name-link">TechOrange<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span><span class="tag">Startups</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📱</div><a href="https://www.inside.com.tw" target="_blank" class="channel-name-link">INSIDE Taiwan<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Technology Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📦</div><a href="https://www.cens.com" target="_blank" class="channel-name-link">CENS Electronics News<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Electronics Industry</span><span class="tag">Manufacturing</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🇨🇳 China -->
+  <div class="country-section" data-country="cn">
+    <div class="country-header">
+      <span class="country-flag">🇨🇳</span>
+      <span class="country-name">China</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead><tr><th style="width:200px;">Publication</th><th>Coverage Areas</th></tr></thead>
+      <tbody>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💎</div><a href="https://www.caixinglobal.com" target="_blank" class="channel-name-link">Caixin Technology<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">China Semiconductors</span><span class="tag">Industrial Policy</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🚀</div><a href="https://36kr.com" target="_blank" class="channel-name-link">36Kr<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span><span class="tag">Startups</span><span class="tag">Advanced Technology</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📊</div><a href="https://equalocean.com" target="_blank" class="channel-name-link">EqualOcean<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">China Industry Analysis</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://www.ofweek.com" target="_blank" class="channel-name-link">Ofweek<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Automation</span><span class="tag">Robotics</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🎛️</div><a href="https://www.gongkong.com" target="_blank" class="channel-name-link">Gongkong<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industrial Automation</span><span class="tag">PLC</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🧠</div><a href="https://pandaily.com" target="_blank" class="channel-name-link">Pandaily<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span><span class="tag">Technology Companies</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://www.eefocus.com" target="_blank" class="channel-name-link">EEFocus<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Electronics Industry</span><span class="tag">Semiconductors</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🤖</div><a href="https://www.leiphone.com" target="_blank" class="channel-name-link">Leiphone<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span><span class="tag">Robotics</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📱</div><a href="https://www.tmtpost.com/en" target="_blank" class="channel-name-link">TMTPost<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Technology Industry</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏛️</div><a href="https://www.chinadaily.com.cn/business/tech" target="_blank" class="channel-name-link">China Daily Tech<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Government Policy</span><span class="tag">Industry Trends</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🇰🇷 South Korea -->
+  <div class="country-section" data-country="kr">
+    <div class="country-header">
+      <span class="country-flag">🇰🇷</span>
+      <span class="country-name">Korea</span>
+      <span class="country-count">10 Publications</span>
+    </div>
+    <table class="channel-table">
+      <thead><tr><th style="width:200px;">Publication</th><th>Coverage Areas</th></tr></thead>
+      <tbody>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💎</div><a href="https://www.thelec.kr" target="_blank" class="channel-name-link">The Elec<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Semiconductors</span><span class="tag">Displays</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">📰</div><a href="https://www.etnews.com" target="_blank" class="channel-name-link">ETNews<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">ICT</span><span class="tag">Semiconductors</span><span class="tag">AI</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏭</div><a href="https://www.hellot.net" target="_blank" class="channel-name-link">HelloT<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Industrial Automation</span><span class="tag">Smart Manufacturing</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚡</div><a href="https://www.epnc.co.kr" target="_blank" class="channel-name-link">EP&amp;C<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Electronic Components</span><span class="tag">Semiconductors</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🖥️</div><a href="https://zdnet.co.kr" target="_blank" class="channel-name-link">ZDNet Korea<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span><span class="tag">Cloud</span><span class="tag">IT</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🧠</div><a href="https://www.aitimes.com" target="_blank" class="channel-name-link">AI Times<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">AI</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🔒</div><a href="https://www.boannews.com" target="_blank" class="channel-name-link">Boan News<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Cybersecurity</span><span class="tag">OT Security</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">🏗️</div><a href="https://www.industrynews.co.kr" target="_blank" class="channel-name-link">Industry News<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Manufacturing</span><span class="tag">Automation</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">⚙️</div><a href="https://www.automate.co.kr" target="_blank" class="channel-name-link">Automation Technology<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">Factory Automation</span></div></td></tr>
+        <tr class="channel-row"><td><div class="channel-name-cell"><div class="channel-icon">💡</div><a href="https://it.donga.com" target="_blank" class="channel-name-link">IT DongA<svg class="ext-icon" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H5M8 2V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a></div></td><td><div class="tag-list"><span class="tag">IT</span><span class="tag">AI</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <h2>Subscribe today and start receiving<br>your briefing tomorrow morning.</h2>
+  <p>Free · No spam · Unsubscribe anytime</p>
+  <a href="/en/#subscribe" class="cta-btn">Subscribe for Free →</a>
+</div>
+
+<footer>
+  <a href="/en/" class="flogo"><span class="em">EMERGING</span> NEWS</a>
+  <p>© 2026 Emerging News. All rights reserved.</p>
+  <div class="flinks">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Use</a>
+    <a href="/en/">Main</a>
+  </div>
+</footer>
+
+<script>
+function filterCountry(code, btn) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.country-section').forEach(s => {
+    if (code === 'all' || s.dataset.country === code) {
+      s.style.display = '';
+    } else {
+      s.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

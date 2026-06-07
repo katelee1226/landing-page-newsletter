@@ -388,7 +388,13 @@ async function handleSubscribe(){
       })
     });
 
-    if(!response.ok) throw new Error('Subscribe request failed');
+    if(!response.ok) {
+      const errorBody = await response.json().catch(() => null);
+      if(response.status === 409 && errorBody?.code === 'DUPLICATE_EMAIL'){
+        throw new Error('DUPLICATE_EMAIL');
+      }
+      throw new Error('Subscribe request failed');
+    }
 
     // Show success message
     const formBody = document.getElementById('form-body');
@@ -402,7 +408,9 @@ async function handleSubscribe(){
     }
   } catch(error) {
     console.error('Subscription error:', error);
-    alert('Something went wrong while submitting. Please try again shortly.');
+    alert(error.message === 'DUPLICATE_EMAIL'
+      ? 'You\'re already subscribed with this email address.'
+      : 'Something went wrong while submitting. Please try again shortly.');
     
     const button = document.querySelector('.cta-btn');
     if(button){

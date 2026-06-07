@@ -387,7 +387,13 @@ async function handleSubscribe(){
       })
     });
 
-    if(!response.ok) throw new Error('Subscribe request failed');
+    if(!response.ok) {
+      const errorBody = await response.json().catch(() => null);
+      if(response.status === 409 && errorBody?.code === 'DUPLICATE_EMAIL'){
+        throw new Error('DUPLICATE_EMAIL');
+      }
+      throw new Error('Subscribe request failed');
+    }
 
     // Show success message
     const formBody = document.getElementById('form-body');
@@ -401,7 +407,9 @@ async function handleSubscribe(){
     }
   } catch(error) {
     console.error('Subscription error:', error);
-    alert('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    alert(error.message === 'DUPLICATE_EMAIL'
+      ? '이미 구독중인 이메일입니다.'
+      : '제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     
     const button = document.querySelector('.cta-btn');
     if(button){

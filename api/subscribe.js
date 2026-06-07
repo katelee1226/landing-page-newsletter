@@ -37,6 +37,20 @@ function validatePayload(payload) {
   return payload.consent_privacy === true && payload.consent_marketing === true;
 }
 
+function isDuplicateEmailError(status, errorBody) {
+  if (status === 409 || errorBody?.code === '23505') {
+    return true;
+  }
+
+  const errorText = [
+    errorBody?.message,
+    errorBody?.details,
+    errorBody?.hint
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  return errorText.includes('duplicate key') || errorText.includes('unique constraint');
+}
+
 module.exports = async function handler(request, response) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
@@ -83,6 +97,15 @@ module.exports = async function handler(request, response) {
     });
 
     if (!supabaseResponse.ok) {
+      const errorBody = await supabaseResponse.json().catch(() => null);
+
+      if (isDuplicateEmailError(supabaseResponse.status, errorBody)) {
+        return response.status(409).json({
+          error: 'Duplicate email',
+          code: 'DUPLICATE_EMAIL'
+        });
+      }
+
       return response.status(502).json({ error: 'Supabase insert failed' });
     }
   } catch (error) {
